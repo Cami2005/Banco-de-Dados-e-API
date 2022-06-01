@@ -1,8 +1,9 @@
-import { InserirFilme } from "../repository/filmerepository.js"
+import { AlterarImagem, InserirFilme } from "../repository/filmerepository.js";
 import { Router } from 'express';
+import multer from 'multer';
 
 const server= Router();
-
+const upload= multer({dest: 'storage/capasFilmes'})
 
 
 
@@ -28,17 +29,14 @@ server.post('/filme', async(req, resp) => {
         
         if(!FilmeParaInserir.usuario) throw new Error
         ('Usuário não logado');
-
-        
-
         
         const filme= await InserirFilme(FilmeParaInserir);
         resp.send(filme);
 
     }
     catch(err){
-        resp.status(404).send({
-            erro: 'Ocorreu um erro'
+        resp.status(400).send({
+            erro: err.message
         })
 
     }
@@ -46,17 +44,24 @@ server.post('/filme', async(req, resp) => {
 
 
 
+server.put('/filme/:id/imagem', upload.single('capa') ,async (req, resp) => {
+   try {
+       const {id} = req.params;
+        const imagem = req.file.path;
+       const resposta= await AlterarImagem(imagem, id);
+       if(resposta!= 1)
+       throw new Error('A imagem não pode ser salva');
+       resp.status(204).send();
 
 
+   } catch (err) {
+       resp.status(400).send({
+           erro: err.message
+       })
+       
+   }
 
-
-
-
-
-
-
-
-
+    })
 
 
 export default server;

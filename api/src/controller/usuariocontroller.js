@@ -13,7 +13,7 @@ server.post('/usuario/login', async (req,resp) => {
             erro: 'Ocorreu um erro'
         })
     }
-})
+});
 
 
 export default server;
