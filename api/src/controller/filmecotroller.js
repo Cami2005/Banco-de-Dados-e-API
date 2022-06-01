@@ -1,4 +1,4 @@
-import { AlterarImagem, InserirFilme } from "../repository/filmerepository.js";
+import { AlterarImagem, InserirFilme, removerFilme } from "../repository/filmerepository.js";
 import { Router } from 'express';
 import multer from 'multer';
 
@@ -46,7 +46,7 @@ server.post('/filme', async(req, resp) => {
 
 server.put('/filme/:id/imagem', upload.single('capa') ,async (req, resp) => {
    try {
-       const {id} = req.params;
+       const { id } = req.params;
         const imagem = req.file.path;
        const resposta= await AlterarImagem(imagem, id);
        if(resposta!= 1)
@@ -58,11 +58,25 @@ server.put('/filme/:id/imagem', upload.single('capa') ,async (req, resp) => {
        resp.status(400).send({
            erro: err.message
        })
-       
-   }
-
+    }
     })
 
+
+server.delete('/filme/:id', async (req, resp) => {
+    try {
+        const { id } = req.params;
+        const resposta = await removerFilme(id);
+
+        if (resposta != 1)
+            throw new Error('Filme não pode ser removido');
+
+        resp.status(204).send();
+
+    }
+    catch(err){
+        resp.status(400).send( { erros: err.message } )
+    }
+})
 
 export default server;
 

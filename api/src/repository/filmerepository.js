@@ -18,3 +18,27 @@ const[resposta]= await con.query(comando, [imagem, id]);
 return resposta.affectedRows;
 
 }
+
+export async function removerFilme(id){
+    const comando =  
+    `DELETE FROM tb_filme 
+        WHERE id_filme = ?`; 
+
+    const [resposta] = await con.query(comando, [id]);
+    return resposta.affectedRows;
+}
+
+export async function alterarFilme(id, filme) {
+    const comando =  
+    `UPDATE tb_filme 
+        SET nm_filme      = ?,
+            ds_sinopse    = ?,
+            vl_avaliacao  = ?,
+            dt_lancamento = ?,
+            bt_disponivel = ?,
+        WHERE id_filme = ?`;
+
+    const [resposta] = await con.query(comando, [filme.nome, filme.sinopse, filme.avaliacao, filme.lancamento, filme.disponivel]);
+        
+    return resposta.affectedRows;
+}
