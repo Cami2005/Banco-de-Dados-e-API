@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "mysql2": "^2.3.3"
+  },
+  "name": "banco-de-dados-e-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cami2005/Banco-de-Dados-e-API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cami2005/Banco-de-Dados-e-API/issues"
+  },
+  "homepage": "https://github.com/Cami2005/Banco-de-Dados-e-API#readme",
+  "description": ""
+}

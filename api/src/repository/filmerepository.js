@@ -11,13 +11,55 @@ export async function InserirFilme(filme){
 
 export async function AlterarImagem( imagem, id){
     const comando=
-    `UPDATE tb_filme 
-     SET img_filme     = ?
-    WHERE id_filme = ?`;
-const[resposta]= await con.query(comando, [imagem, id]);
-return resposta.affectedRows;
-
+        `UPDATE tb_filme 
+            SET img_filme     = ?
+        WHERE id_filme = ?`;
+    const[resposta]= await con.query(comando, [imagem, id]);
+    return resposta.affectedRows;
 }
+
+export async function listarTodosFilmes() {
+    const comando=
+    `SELECT id_filme	        id,
+            nm_filme		    nome,
+            vl_avaliacao	    avaliacao,
+            dt_lancamento	    lancamento,
+            bt_disponivel	    disponivel
+       FROM tb_filme`;
+    
+    const[linhas]= await con.query(comando);
+    return linhas;
+}
+
+export async function BuscarPorId(id) {
+    const comando=
+    `SELECT id_filme	        id,
+            nm_filme		    nome,
+            vl_avaliacao	    avaliacao,
+            dt_lancamento	    lancamento,
+            bt_disponivel	    disponivel
+       FROM tb_filme
+       WHERE id_filme=?`;
+   
+    const[linhas]= await con.query(comando, [id]);
+    return linhas[0];
+}
+
+export async function BuscarPorNome(nome) {
+    const comando=
+    `SELECT id_filme	        id,
+            nm_filme		    nome,
+            vl_avaliacao	    avaliacao,
+            dt_lancamento	    lancamento,
+            bt_disponivel	    disponivel
+       FROM tb_filme
+       WHERE nm_filme like ?`;
+   
+    const[linhas]= await con.query(comando, [`%${nome}%`]);
+    return linhas;
+}
+
+// bianca liebetanz quarta feira 
 
 export async function removerFilme(id){
     const comando =  
@@ -36,9 +78,10 @@ export async function alterarFilme(id, filme) {
             vl_avaliacao  = ?,
             dt_lancamento = ?,
             bt_disponivel = ?,
-        WHERE id_filme = ?`;
+    WHERE id_filme = ?`;
 
     const [resposta] = await con.query(comando, [filme.nome, filme.sinopse, filme.avaliacao, filme.lancamento, filme.disponivel]);
         
     return resposta.affectedRows;
 }
+
