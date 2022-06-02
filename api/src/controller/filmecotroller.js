@@ -132,7 +132,9 @@ server.delete('/filme/:id', async (req, resp) => {
         const { id } = req.params;
         const filme = req.body;
 
-        
+        if(!id) 
+        throw new Error('Especifique o filme!');
+
         if(!filme.nome) 
         throw new Error('Campo nome é obrigatório');
         
