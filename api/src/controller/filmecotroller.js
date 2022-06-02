@@ -129,36 +129,39 @@ server.delete('/filme/:id', async (req, resp) => {
     })
 
     server.put('/filme/:id', async (req, resp) => {
+
+        try {
         const { id } = req.params;
         const filme = req.body;
 
-        if(!id) 
-        throw new Error('Especifique o filme!');
-
         if(!filme.nome) 
-        throw new Error('Campo nome é obrigatório');
+            throw new Error('Campo nome é obrigatório');
         
         if(!filme.sinopse) 
-        throw new Error('Campo sinopse é obrigatório');
+            throw new Error('Campo sinopse é obrigatório');
        
-        if(!filme.avaliacao) 
-        throw new Error('Campo avaliação é obrigatório');
+        if(filme.avaliacao == undefined || filme.avaliacao < 0) 
+            throw new Error('Campo avaliação é obrigatório');
         
-        if(!filme.lancamento) throw new Error
-        ('Campo lançamento é obrigatório');
+        if(!filme.lancamento) 
+            throw new Error('Campo lançamento é obrigatório');
         
-        if(!filme.disponivel) throw new Error
-        ('Campo disponível é obrigatório');
-        
-        if(!filme.usuario) throw new Error
-        ('Usuário não logado');
+        if(filme.disponivel == undefined) 
+            throw new Error('Campo disponível é obrigatório');
 
+        if(!filme.usuario)
+            throw new Error('Usuário não logado');
+        
         const resposta= await alterarFilme(id, filme);          
         
-        if(resposta != 1)
+        if(resposta == 0)
             throw new Error(('Filme não pôde ser alterado!'));
         else
             resp.status(204).send();
+        }
+        catch(err){
+            resp.status(400).send({ erro: err.message})
+        }
     })
 
 
