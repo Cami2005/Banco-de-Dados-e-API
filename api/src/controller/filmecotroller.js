@@ -128,7 +128,7 @@ server.delete('/filme/:id', async (req, resp) => {
         }
     })
 
-    server.put('/filme/:id', async (re, resp) => {
+    server.put('/filme/:id', async (req, resp) => {
         const { id } = req.params;
         const filme = req.body;
 
