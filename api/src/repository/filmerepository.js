@@ -80,7 +80,7 @@ export async function alterarFilme(id, filme) {
             bt_disponivel = ?,
     WHERE id_filme = ?`;
 
-    const [resposta] = await con.query(comando, [filme.nome, filme.sinopse, filme.avaliacao, filme.lancamento, filme.disponivel]);
+    const [resposta] = await con.query(comando, [filme.nome, filme.sinopse, filme.avaliacao, filme.lancamento, filme.disponivel, id]);
         
     return resposta.affectedRows;
 }

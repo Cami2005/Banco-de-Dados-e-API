@@ -1,5 +1,5 @@
 
-import { AlterarImagem, InserirFilme, removerFilme, listarTodosFilmes, BuscarPorId, BuscarPorNome } from "../repository/filmerepository.js";
+import { AlterarImagem, InserirFilme, removerFilme, listarTodosFilmes, BuscarPorId, BuscarPorNome, alterarFilme } from "../repository/filmerepository.js";
 import { Router } from 'express';
 import multer from 'multer';
 
@@ -128,6 +128,36 @@ server.delete('/filme/:id', async (req, resp) => {
         }
     })
 
+    server.put('/filme/:id', async (re, resp) => {
+        const { id } = req.params;
+        const filme = req.body;
+
+        
+        if(!filme.nome) 
+        throw new Error('Campo nome é obrigatório');
+        
+        if(!filme.sinopse) 
+        throw new Error('Campo sinopse é obrigatório');
+       
+        if(!filme.avaliacao) 
+        throw new Error('Campo avaliação é obrigatório');
+        
+        if(!filme.lancamento) throw new Error
+        ('Campo lançamento é obrigatório');
+        
+        if(!filme.disponivel) throw new Error
+        ('Campo disponível é obrigatório');
+        
+        if(!filme.usuario) throw new Error
+        ('Usuário não logado');
+
+        const resposta= await alterarFilme(id, filme);          
+        
+        if(resposta != 1)
+            throw new Error(('Filme não pôde ser alterado!'));
+        else
+            resp.status(204).send();
+    })
+
 
 export default server;
-
